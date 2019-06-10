@@ -46,8 +46,27 @@ void draw_line(image im, float x, float y, float dx, float dy)
 // returns: image I such that I[x,y] = sum{i<=x, j<=y}(im[i,j])
 image make_integral_image(image im)
 {
+    float first = 0.0;
+    float second = 0.0;
+    float third = 0.0;
+    float fourth = 0.0;
     image integ = make_image(im.w, im.h, im.c);
-    // TODO: fill in the integral image
+    for(int i=0;i<im.w;i++){
+        for(int j=0;j<im.h;j++){
+            for(int k=0;k<im.c;k++){
+                if(j > 0){
+                    float second = get_pixel(im, i, j - 1, k);
+                }
+                if(i > 0){
+                    float third = get_pixel(im, i - 1, j, k);
+                }
+                if(i > 0 && j > 0){
+                    float fourth = get_pixel(im, i - 1, j - 1, k);
+                }
+                float first = get_pixel(im, i, j, k);
+                set_pixel(integ, i, j, k, first + second + third - fourth);   
+        }
+    }
     return integ;
 }
 
