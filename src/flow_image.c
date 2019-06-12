@@ -65,6 +65,7 @@ image make_integral_image(image im)
                 }
                 float first = get_pixel(im, i, j, k);
                 set_pixel(integ, i, j, k, first + second + third - fourth);   
+            }
         }
     }
     return integ;
@@ -80,6 +81,20 @@ image box_filter_image(image im, int s)
     image integ = make_integral_image(im);
     image S = make_image(im.w, im.h, im.c);
     // TODO: fill in S using the integral image.
+    for(int i=0;i<im.w;i++){
+        for(int j=0;j<im.h;j++){
+            for(int k=0;k<im.c;k++){
+                float result = get_pixel(im, )
+
+                set_pixel(S, i, j, k, result);
+                
+
+            }
+        }
+    }
+
+
+
     return S;
 }
 
@@ -98,6 +113,25 @@ image time_structure_matrix(image im, image prev, int s)
         im = rgb_to_grayscale(im);
         prev = rgb_to_grayscale(prev);
     }
+
+    image SM = make_image(im.w, im.h, 5);
+
+    image filter_ix = make_gx_filter();
+    image filter_iy = make_gy_filter();
+    image ix = convolve_image(im, filter_ix, 0);
+    image iy = convolve_image(im, filter_iy, 0);
+    for (int j = 0; j < im.w; j++){
+        for (int k = 0; k < im.h; k++){
+            float px = get_pixel(ix, j, k, 0);
+            float py = get_pixel(iy, j, k, 0);
+            set_pixel(SM, j, k, 0, px * px);
+            set_pixel(SM, j, k, 1, py * py);
+            set_pixel(SM, j, k, 2, px * py);
+
+        }
+    }
+
+
 
     // TODO: calculate gradients, structure components, and smooth them
 
